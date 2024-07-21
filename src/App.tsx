@@ -3,9 +3,11 @@ import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <>
-      <Home />
-    </>
+    <div className="w-full flex justify-center">
+      <div className="w-11/12">
+        <Home />
+      </div>
+    </div>
   );
 }
 

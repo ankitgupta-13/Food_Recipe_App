@@ -1,7 +1,12 @@
+import { Categories, FilterSidebar, Header, SearchBar } from "../../components";
+
 const Home = () => {
   return (
     <div>
-      <h1 className="flex justify-center">Home</h1>
+      <Header />
+      <SearchBar />
+      <Categories />
+      <FilterSidebar />
     </div>
   );
 };
