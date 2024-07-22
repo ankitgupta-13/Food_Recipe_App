@@ -5,6 +5,7 @@ export default {
     extend: {
       borderColor: {
         "custom-gray": "#d9d9d9",
+        "custom-green": "#71B1A1",
       },
       textColor: {
         "custom-green": "#71b1a1",
