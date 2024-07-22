@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipesByCategory } from "../api/recipe.api";
-import { setRecipes } from "../redux/reducers/RecipeSlide";
+import { setRecipes } from "../redux/reducers/RecipeSlice";
 import { RootState } from "../redux/store";
 import { Category } from "../types/category";
 

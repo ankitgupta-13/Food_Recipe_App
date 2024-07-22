@@ -3,6 +3,7 @@ import { Recipe } from "../../types/recipe";
 
 const initialState = {
   recipes: [] as Recipe[],
+  searchRecipes: [] as Recipe[],
 };
 
 export const recipeSlice = createSlice({
@@ -12,9 +13,12 @@ export const recipeSlice = createSlice({
     setRecipes: (state, action) => {
       state.recipes = action.payload;
     },
+    setSearchRecipes: (state, action) => {
+      state.searchRecipes = action.payload;
+    },
   },
 });
 
-export const { setRecipes } = recipeSlice.actions;
+export const { setRecipes, setSearchRecipes } = recipeSlice.actions;
 
 export default recipeSlice.reducer;

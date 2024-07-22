@@ -7,12 +7,14 @@ export interface FilterState {
   categories: Category[];
   areas: Area[];
   showFilter: boolean;
+  showSearch: boolean;
 }
 
 const initialState: FilterState = {
   categories: [],
   areas: [],
   showFilter: false,
+  showSearch: false,
 };
 
 export const filterSlice = createSlice({
@@ -28,9 +30,13 @@ export const filterSlice = createSlice({
     setShowFilter: (state, action: PayloadAction<boolean>) => {
       state.showFilter = action.payload;
     },
+    setShowSearch: (state, action: PayloadAction<boolean>) => {
+      state.showSearch = action.payload;
+    },
   },
 });
 
-export const { setCategories, setAreas, setShowFilter } = filterSlice.actions;
+export const { setCategories, setAreas, setShowFilter, setShowSearch } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

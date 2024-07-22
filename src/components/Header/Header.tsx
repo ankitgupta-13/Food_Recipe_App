@@ -1,10 +1,6 @@
-import { useSelector } from "react-redux";
 import Avatar from "../../assets/Avatar.svg";
-import { RootState } from "../../redux/store";
-import FilterSidebar from "../FilterSidebar";
 
 const Header = () => {
-  const showFilter = useSelector((state: RootState) => state.filter.showFilter);
   return (
     <div>
       <div className="flex justify-between">
@@ -16,11 +12,6 @@ const Header = () => {
           <img src={Avatar} alt="Not found!" />
         </div>
       </div>
-      {showFilter && (
-        <div className="h-full">
-          <FilterSidebar />
-        </div>
-      )}
     </div>
   );
 };

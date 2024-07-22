@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { filterSlice } from "./reducers/FilterSlice";
-import { recipeSlice } from "./reducers/RecipeSlide";
+import { recipeSlice } from "./reducers/RecipeSlice";
 
 export const store = configureStore({
   reducer: {

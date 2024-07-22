@@ -16,6 +16,9 @@ export default {
         "custom-green": "#129575",
         "custom-gray": "#d9d9d9",
       },
+      fontSize: {
+        xxs: "8px",
+      },
     },
   },
   plugins: [],
