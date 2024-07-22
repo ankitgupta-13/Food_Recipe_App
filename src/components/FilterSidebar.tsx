@@ -62,6 +62,7 @@ const FilterSidebar = () => {
         selectedCategories
       );
       const filteredRecipesByArea = await getRecipesByArea(selectedAreas);
+      console.log(filteredRecipesByCategory, filteredRecipesByArea);
     },
   });
 
