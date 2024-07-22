@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL;
+// const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 export const api = axios.create({
-  baseURL: baseURL,
+  baseURL: "/proxy",
   // timeout: 1000,
   headers: {
     authorization: `Bearer ${document.cookie.split(";")}`,
@@ -10,12 +11,3 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-// {
-//   "rewrites": [
-//     {
-//       "source": "/proxy/:match*",
-//       "destination": "https://www.themealdb.com/api/json/v1/1/:match*"
-//     }
-//   ]
-// }
