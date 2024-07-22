@@ -1,7 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import Filter from "../../assets/Filter.svg";
 import Search from "../../assets/Search.svg";
+import { setShowFilter } from "../../redux/reducers/FilterSlice";
+import { RootState } from "../../redux/store";
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+  const showFilter = useSelector((state: RootState) => state.filter.showFilter);
   return (
     <div className="flex h-10 gap-5">
       <div className="flex items-center h-full gap-2 rounded-lg border-2 border-custom-gray p-2">
@@ -12,7 +17,11 @@ const SearchBar = () => {
           placeholder="Search Recipe"
         />
       </div>
-      <img src={Filter} alt="not found" />
+      <img
+        src={Filter}
+        alt="not found"
+        onClick={() => dispatch(setShowFilter(!showFilter))}
+      />
     </div>
   );
 };

@@ -8,9 +8,12 @@ export default {
       },
       textColor: {
         "custom-green": "#71b1a1",
+        "custom-light-gray": "#a9a9a9",
+        "custom-dark-gray": "#484848",
       },
       backgroundColor: {
         "custom-green": "#129575",
+        "custom-gray": "#d9d9d9",
       },
     },
   },

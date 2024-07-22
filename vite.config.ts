@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://www.themealdb.com",
+        target: "https://www.themealdb.com/api/json/v1/1",
         changeOrigin: true,
-        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
