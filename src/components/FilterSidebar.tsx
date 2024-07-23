@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipesByArea, getRecipesByCategory } from "../api/recipe.api";
 import ArrowLeft from "../assets/Arrow-Left.svg";
 import { setShowFilter } from "../redux/reducers/FilterSlice";
+import { setSearchRecipes } from "../redux/reducers/RecipeSlice";
 import { RootState } from "../redux/store";
 import { Area } from "../types/area";
 import { Category } from "../types/category";
@@ -18,6 +19,11 @@ const FilterSidebar = () => {
   const [showAllCategory, setShowAllCategory] = useState(false);
   const [showAllArea, setShowAllArea] = useState(false);
   const dispatch = useDispatch();
+  const showSearch = useSelector((state: RootState) => state.filter.showSearch);
+  const searchRecipes = useSelector(
+    (state: RootState) => state.recipe.searchRecipes
+  );
+
   const allCategories = useSelector(
     (state: RootState) => state.filter.categories
   );
@@ -55,6 +61,13 @@ const FilterSidebar = () => {
     }
   };
 
+  const filterSearchedRecipes = searchRecipes.filter(
+    (recipe) =>
+      selectedCategories.some(
+        (cat) => cat.strCategory === recipe.strCategory
+      ) || selectedAreas.some((area) => area.strArea === recipe.strArea)
+  );
+
   const mutation = useMutation({
     mutationFn: async ({
       selectedCategories,
@@ -63,6 +76,11 @@ const FilterSidebar = () => {
       selectedCategories: Category[];
       selectedAreas: Area[];
     }) => {
+      if (showSearch) {
+        dispatch(setSearchRecipes(filterSearchedRecipes));
+        dispatch(setShowFilter(false));
+        return filterSearchedRecipes;
+      }
       const filteredRecipesByCategory = await getRecipesByCategory(
         selectedCategories
       );
@@ -78,11 +96,15 @@ const FilterSidebar = () => {
       const filteredRecipes = filteredRecipesByCategory.filter((recipe) =>
         filteredRecipesByArea.some((r) => r.idMeal === recipe.idMeal)
       );
-      console.log(filteredRecipes);
       setSelectedRecipes(filteredRecipes);
       return filteredRecipes;
     },
   });
+  useEffect(() => {
+    setSelectedCategories([]);
+    setSelectedAreas([]);
+    setSelectedRecipes([]);
+  }, [showSearch]);
 
   return (
     <div className="flex justify-center pt-4">
@@ -130,7 +152,7 @@ const FilterSidebar = () => {
                     />
                   ))}
             <button
-              className="bg-custom-green text-white text-xs px-4 h-8 w-max rounded-xl flex items-center justify-center"
+              className="rounded-xl px-3 py-1 text-xs cursor-pointer bg-custom-green text-white"
               onClick={() => setShowAllCategory((prev) => !prev)}
             >
               {`${showAllCategory ? "Less" : "More"}`}
@@ -172,7 +194,7 @@ const FilterSidebar = () => {
                     />
                   ))}
             <button
-              className="bg-custom-green text-white text-xs px-4 h-8 w-max rounded-xl flex items-center justify-center"
+              className="rounded-xl px-3 py-1 text-xs cursor-pointer bg-custom-green text-white"
               onClick={() => setShowAllArea((prev) => !prev)}
             >
               {`${showAllArea ? "Less" : "More"}`}

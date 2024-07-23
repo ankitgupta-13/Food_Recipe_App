@@ -29,14 +29,12 @@ const SearchBar = () => {
     mutationFn: async (search: string) => {
       if (search.trim()) {
         const response = await getRecipesBySearch(search);
+        dispatch(setSearchInput(search));
+        dispatch(setLoadingSearchRecipes(false));
         if (response) {
-          dispatch(setSearchInput(search));
           dispatch(setSearchRecipes(response));
-          dispatch(setLoadingSearchRecipes(false));
         } else {
-          dispatch(setSearchInput(search));
           dispatch(setSearchRecipes([]));
-          dispatch(setLoadingSearchRecipes(false));
         }
         return response;
       }
@@ -72,6 +70,11 @@ const SearchBar = () => {
             className="text-custom-light-gray text-xs border-none outline-none w-11/12"
             placeholder="Search Recipe"
             value={searchInput}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                debouncedMutate(searchInput);
+              }
+            }}
             onChange={handleInputChange}
           />
         ) : (
@@ -87,7 +90,6 @@ const SearchBar = () => {
         className="cursor-pointer"
         onClick={() => {
           dispatch(setShowFilter(!showFilter));
-          dispatch(setShowSearch(false));
         }}
       />
     </div>

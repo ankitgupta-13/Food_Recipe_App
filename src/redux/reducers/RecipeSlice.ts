@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Recipe } from "../../types/recipe";
+import { SearchRecipe } from "../../types/SearchRecipe";
 
 const initialState = {
   recipes: [] as Recipe[],
-  searchRecipes: [] as Recipe[],
+  searchRecipes: [] as SearchRecipe[],
   isLoadingAllCategoriesRecipe: true,
   isLoadingSearchRecipes: true,
 };
