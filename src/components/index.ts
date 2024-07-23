@@ -5,6 +5,7 @@ import Recipes from "./Recipes";
 import SearchBar from "./SearchBar/SearchBar";
 import SearchCard from "./SearchCard";
 import SearchRecipes from "./SearchRecipes";
+import VoiceAssistant from "./VoiceAssistant";
 
 export {
   Categories,
@@ -14,4 +15,5 @@ export {
   SearchBar,
   SearchCard,
   SearchRecipes,
+  VoiceAssistant,
 };

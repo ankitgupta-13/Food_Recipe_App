@@ -5,19 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRecipesBySearch } from "../../api/recipe.api";
 import Filter from "../../assets/Filter.svg";
 import Search from "../../assets/Search.svg";
-import { setShowFilter, setShowSearch } from "../../redux/reducers/FilterSlice";
+import {
+  setSearchInput,
+  setShowFilter,
+  setShowSearch,
+} from "../../redux/reducers/FilterSlice";
 import { setSearchRecipes } from "../../redux/reducers/RecipeSlice";
 import { RootState } from "../../redux/store";
+import VoiceAssistant from "../VoiceAssistant";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const showFilter = useSelector((state: RootState) => state.filter.showFilter);
   const showSearch = useSelector((state: RootState) => state.filter.showSearch);
+  const searchInput = useSelector(
+    (state: RootState) => state.filter.searchInput
+  );
 
   const mutation = useMutation({
     mutationFn: async (search: string) => {
       const response = await getRecipesBySearch(search);
       if (response) {
+        dispatch(setSearchInput(search));
         dispatch(setSearchRecipes(response));
       }
       return response;
@@ -43,6 +52,12 @@ const SearchBar = () => {
           <input
             className="text-custom-light-gray text-xs border-none outline-none w-11/12"
             placeholder="Search Recipe"
+            value={searchInput}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter") {
+                debouncedMutate(e.currentTarget.value);
+              }
+            }}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               debouncedMutate(e.target.value)
             }
@@ -50,6 +65,7 @@ const SearchBar = () => {
         ) : (
           <p className="text-custom-light-gray text-xs">Search Recipe</p>
         )}
+        <VoiceAssistant />
       </div>
       <img
         src={Filter}

@@ -11,6 +11,9 @@ const SearchRecipes = () => {
   const searchRecipes = useSelector(
     (state: RootState) => state.recipe.searchRecipes
   );
+  const searchInput = useSelector(
+    (state: RootState) => state.filter.searchInput
+  );
   return (
     <div className="flex justify-center">
       <div className="flex flex-col gap-4 w-[94%]">
@@ -29,7 +32,9 @@ const SearchRecipes = () => {
         <div>
           {searchRecipes.length > 0 ? (
             <div className="flex flex-col gap-3">
-              <div className="font-semibold">Recipes</div>
+              <div className="font-semibold">
+                {searchInput ? "Search Result" : "Suggested Recipes"}
+              </div>
               <div className="h-full flex gap-y-2 flex-wrap justify-between">
                 {searchRecipes.map((recipe: Recipe) => (
                   <SearchCard

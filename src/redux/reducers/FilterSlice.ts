@@ -6,6 +6,7 @@ import { Category } from "../../types/category";
 export interface FilterState {
   categories: Category[];
   areas: Area[];
+  searchInput: string;
   showFilter: boolean;
   showSearch: boolean;
 }
@@ -13,6 +14,7 @@ export interface FilterState {
 const initialState: FilterState = {
   categories: [],
   areas: [],
+  searchInput: "",
   showFilter: false,
   showSearch: false,
 };
@@ -27,6 +29,9 @@ export const filterSlice = createSlice({
     setAreas: (state, action: PayloadAction<Area[]>) => {
       state.areas = action.payload;
     },
+    setSearchInput: (state, action: PayloadAction<string>) => {
+      state.searchInput = action.payload;
+    },
     setShowFilter: (state, action: PayloadAction<boolean>) => {
       state.showFilter = action.payload;
     },
@@ -36,7 +41,12 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { setCategories, setAreas, setShowFilter, setShowSearch } =
-  filterSlice.actions;
+export const {
+  setCategories,
+  setAreas,
+  setSearchInput,
+  setShowFilter,
+  setShowSearch,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;
