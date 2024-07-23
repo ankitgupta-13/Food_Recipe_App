@@ -19,6 +19,9 @@ export default {
       fontSize: {
         xxs: "8px",
       },
+      boxShadow: {
+        "custom-light": "0px 0px 20px 0px rgba(0, 0, 0, 0.1)",
+      },
     },
   },
   plugins: [],

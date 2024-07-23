@@ -46,12 +46,14 @@ const Categories = () => {
   });
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between gap-1">
       {homeCategories.map((category: HomeCategory) => {
         return (
           <div
             key={category.id}
-            className={`text-custom-green cursor-pointer text-xs px-4 py-2 rounded-lg ${
+            className={`text-custom-green cursor-pointer text-xs font-semibold ${
+              category.name === "All" ? "px-4" : "px-2"
+            } py-2 rounded-lg ${
               category.active ? "text-white bg-custom-green" : ""
             } active:text-white active:bg-custom-green`}
             onClick={() => {

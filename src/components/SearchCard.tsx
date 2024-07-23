@@ -9,7 +9,7 @@ const truncateName = (name: string, maxWords: number) => {
 const SearchCard = ({ name, image }: { name: string; image: string }) => {
   return (
     <div
-      className="relative w-[10rem] h-[10rem] bg-cover bg-center rounded-lg"
+      className="relative w-[9rem] h-[9rem] bg-cover bg-center rounded-xl"
       style={{ backgroundImage: `url(${image})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent rounded-lg"></div>

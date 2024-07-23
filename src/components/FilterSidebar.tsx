@@ -15,6 +15,8 @@ const FilterSidebar = () => {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [selectedAreas, setSelectedAreas] = useState<Area[]>([]);
   const [selectedRecipes, setSelectedRecipes] = useState<Recipe[]>([]);
+  const [showAllCategory, setShowAllCategory] = useState(false);
+  const [showAllArea, setShowAllArea] = useState(false);
   const dispatch = useDispatch();
   const allCategories = useSelector(
     (state: RootState) => state.filter.categories
@@ -83,8 +85,8 @@ const FilterSidebar = () => {
   });
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-4 w-[94%]">
+    <div className="flex justify-center pt-4">
+      <div className="flex flex-col gap-4 w-5/6">
         <div className="flex items-center h-7">
           <img
             src={ArrowLeft}
@@ -104,16 +106,37 @@ const FilterSidebar = () => {
               selected={selectedCategories.length === allCategories.length}
               onClick={() => handleCategoryClick({ strCategory: "All" })}
             />
-            {allCategories.map((category: Category, index: number) => (
-              <ListItemButton
-                key={index}
-                name={category.strCategory}
-                selected={selectedCategories.some(
-                  (cat) => cat.strCategory === category.strCategory
-                )}
-                onClick={() => handleCategoryClick(category)}
-              />
-            ))}
+            {showAllCategory
+              ? allCategories.map((category: Category, index: number) => (
+                  <ListItemButton
+                    key={index}
+                    name={category.strCategory}
+                    selected={selectedCategories.some(
+                      (cat) => cat.strCategory === category.strCategory
+                    )}
+                    onClick={() => handleCategoryClick(category)}
+                  />
+                ))
+              : allCategories
+                  .slice(0, 5)
+                  .map((category: Category, index: number) => (
+                    <ListItemButton
+                      key={index}
+                      name={category.strCategory}
+                      selected={selectedCategories.some(
+                        (cat) => cat.strCategory === category.strCategory
+                      )}
+                      onClick={() => handleCategoryClick(category)}
+                    />
+                  ))}
+          </div>
+          <div
+            className="flex justify-end"
+            onClick={() => setShowAllCategory((prev) => !prev)}
+          >
+            <button className="bg-custom-green text-white text-xs p-1 w-max rounded-md">
+              {`Show ${showAllCategory ? "Less" : "More"}`}
+            </button>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -125,19 +148,45 @@ const FilterSidebar = () => {
                 selectedAreas.length === allAreas.length &&
                 selectedAreas.length > 0
               }
-              onClick={() => handleAreaClick({ strArea: "All" })}
+              onClick={() => {
+                handleAreaClick({ strArea: "All" });
+                setShowAllArea(true);
+              }}
             />
-            {allAreas.map((area: Area, index: number) => (
-              <ListItemButton
-                key={index}
-                name={area.strArea}
-                selected={selectedAreas.some((a) => a.strArea === area.strArea)}
-                onClick={() => handleAreaClick(area)}
-              />
-            ))}
+            {showAllArea
+              ? allAreas.map((area: Area, index: number) => (
+                  <ListItemButton
+                    key={index}
+                    name={area.strArea}
+                    selected={selectedAreas.some(
+                      (a) => a.strArea === area.strArea
+                    )}
+                    onClick={() => handleAreaClick(area)}
+                  />
+                ))
+              : allAreas
+                  .slice(0, 5)
+                  .map((area: Area, index: number) => (
+                    <ListItemButton
+                      key={index}
+                      name={area.strArea}
+                      selected={selectedAreas.some(
+                        (a) => a.strArea === area.strArea
+                      )}
+                      onClick={() => handleAreaClick(area)}
+                    />
+                  ))}
+          </div>
+          <div
+            className="flex justify-end"
+            onClick={() => setShowAllArea((prev) => !prev)}
+          >
+            <button className="bg-custom-green text-white text-xs p-1 w-max rounded-md">
+              {`Show ${showAllArea ? "Less" : "More"}`}
+            </button>
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-2">
           <button
             className="bg-custom-green text-white w-44 h-9 rounded-lg"
             onClick={() =>

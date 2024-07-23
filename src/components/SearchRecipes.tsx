@@ -3,20 +3,24 @@ import ArrowLeft from "../assets/Arrow-Left.svg";
 import { setShowSearch } from "../redux/reducers/FilterSlice";
 import { RootState } from "../redux/store";
 import { Recipe } from "../types/recipe";
-import SearchBar from "./SearchBar/SearchBar";
+import SearchBar from "./SearchBar";
 import SearchCard from "./SearchCard";
+import SkeletonCard from "./Skeleton";
 
 const SearchRecipes = () => {
   const dispatch = useDispatch();
   const searchRecipes = useSelector(
     (state: RootState) => state.recipe.searchRecipes
   );
+  const isLoadingSearchRecipes = useSelector(
+    (state: RootState) => state.recipe.isLoadingSearchRecipes
+  );
   const searchInput = useSelector(
     (state: RootState) => state.filter.searchInput
   );
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-4 w-[94%]">
+    <div className="flex justify-center pt-10">
+      <div className="flex flex-col gap-4 w-5/6">
         <div className="flex items-center h-7">
           <img
             src={ArrowLeft}
@@ -30,7 +34,14 @@ const SearchRecipes = () => {
         </div>
         <SearchBar />
         <div>
-          {searchRecipes.length > 0 ? (
+          {searchRecipes === null ? (
+            <p>No recipes found</p>
+          ) : isLoadingSearchRecipes ? (
+            <div className="flex pt-10">
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
+          ) : (
             <div className="flex flex-col gap-3">
               <div className="font-semibold">
                 {searchInput ? "Search Result" : "Suggested Recipes"}
@@ -45,8 +56,6 @@ const SearchRecipes = () => {
                 ))}
               </div>
             </div>
-          ) : (
-            <p>No recipes found</p>
           )}
         </div>
       </div>

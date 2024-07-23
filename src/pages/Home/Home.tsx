@@ -9,12 +9,16 @@ import {
   Categories,
   FilterSidebar,
   Header,
+  NewRecipes,
   Recipes,
   SearchBar,
   SearchRecipes,
 } from "../../components";
 import { setAreas, setCategories } from "../../redux/reducers/FilterSlice";
-import { setRecipes } from "../../redux/reducers/RecipeSlice";
+import {
+  setRecipes,
+  setRecipesLoading,
+} from "../../redux/reducers/RecipeSlice";
 import { RootState } from "../../redux/store";
 
 const Home = () => {
@@ -45,14 +49,16 @@ const Home = () => {
     queryKey: ["recipes"],
     queryFn: async () => {
       const response = await getRecipesByCategory(allCategories);
+      dispatch(setRecipesLoading(false));
       dispatch(setRecipes(response));
+
       return response;
     },
     staleTime: Infinity,
   });
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col gap-5">
       <Header />
       <div
         className={`fixed top-0 right-0 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out z-50 w-full overflow-y-scroll ${
@@ -71,6 +77,7 @@ const Home = () => {
       <SearchBar />
       <Categories />
       <Recipes />
+      <NewRecipes />
     </div>
   );
 };

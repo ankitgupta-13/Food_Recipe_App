@@ -2,7 +2,7 @@ import Bookmark from "../assets/Bookmark.svg";
 import { Recipe } from "../types/recipe";
 const RecipeCard = ({ strMeal, strMealThumb }: Recipe) => {
   return (
-    <div className="h-60 w-36 relative">
+    <div className="h-60 w-36 relative flex-shrink-0">
       <div className="flex justify-center">
         <img
           src={strMealThumb}
@@ -10,8 +10,8 @@ const RecipeCard = ({ strMeal, strMealThumb }: Recipe) => {
           alt="Not found"
         />
       </div>
-      <div className="p-2 bg-custom-gray h-3/4 w-full absolute rounded-t-xl bottom-0 opacity-50 flex flex-col justify-end gap-2">
-        <div className="h-3/4 pt-2 flex flex-col justify-between ">
+      <div className="p-2 bg-custom-gray h-3/4 w-full absolute rounded-xl bottom-0 bg-opacity-50 flex flex-col justify-end gap-2">
+        <div className="h-2/3 pt-2 flex flex-col justify-between">
           <div className="w-full flex justify-center">
             <p className=" w-3/4 text-center text-sm font-semibold text-custom-dark-gray">
               {strMeal}

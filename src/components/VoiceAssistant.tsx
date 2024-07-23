@@ -7,7 +7,10 @@ import SpeechRecognition, {
 import { getRecipesBySearch } from "../api/recipe.api";
 import MicroPhone from "../assets/Microphone.svg";
 import { setSearchInput } from "../redux/reducers/FilterSlice";
-import { setSearchRecipes } from "../redux/reducers/RecipeSlice";
+import {
+  setLoadingSearchRecipes,
+  setSearchRecipes,
+} from "../redux/reducers/RecipeSlice";
 
 const VoiceAssistant = () => {
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ const VoiceAssistant = () => {
     } else {
       SpeechRecognition.stopListening();
       dispatch(setSearchInput(transcript));
+      dispatch(setLoadingSearchRecipes(false));
       mutation.mutate(transcript);
     }
   }, [listeningState]);
