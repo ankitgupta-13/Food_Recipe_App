@@ -84,6 +84,7 @@ const SearchBar = () => {
       <img
         src={Filter}
         alt="Filter"
+        className="cursor-pointer"
         onClick={() => {
           dispatch(setShowFilter(!showFilter));
           dispatch(setShowSearch(false));
