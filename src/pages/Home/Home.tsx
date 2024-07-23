@@ -29,8 +29,12 @@ const Home = () => {
     queryKey: ["allCategories"],
     queryFn: async () => {
       const response = await getAllCategories();
-      dispatch(setCategories(response));
-      return response;
+      if (response) {
+        dispatch(setCategories(response));
+        return response;
+      } else {
+        return [];
+      }
     },
     staleTime: Infinity,
   });
@@ -39,8 +43,12 @@ const Home = () => {
     queryKey: ["allAreas"],
     queryFn: async () => {
       const response = await getAllAreas();
-      dispatch(setAreas(response));
-      return response;
+      if (response) {
+        dispatch(setAreas(response));
+        return response;
+      } else {
+        return [];
+      }
     },
     staleTime: Infinity,
   });
@@ -49,9 +57,9 @@ const Home = () => {
     queryKey: ["recipes"],
     queryFn: async () => {
       const response = await getRecipesByCategory(allCategories);
+      if (!response) return [];
       dispatch(setRecipesLoading(false));
       dispatch(setRecipes(response));
-
       return response;
     },
     staleTime: Infinity,

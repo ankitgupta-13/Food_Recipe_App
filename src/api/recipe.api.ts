@@ -6,6 +6,9 @@ export const getAllCategories = async () => {
     const response = await api.get("/list.php?c=list");
     if (response.status === 200) {
       return response.data.meals;
+    } else {
+      console.error(response);
+      return [];
     }
   } catch (error) {
     console.error(error);
@@ -17,6 +20,9 @@ export const getAllAreas = async () => {
     const response = await api.get("/list.php?a=list");
     if (response.status === 200) {
       return response.data.meals;
+    } else {
+      console.error(response);
+      return [];
     }
   } catch (error) {
     console.error(error);
