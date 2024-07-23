@@ -30,7 +30,7 @@ const VoiceAssistant = () => {
   useEffect(() => {
     if (listeningState) {
       resetTranscript();
-      setWasListening(true); // Mark as was listening
+      setWasListening(true);
       SpeechRecognition.startListening({
         continuous: true,
         language: "en-IN",
@@ -45,13 +45,16 @@ const VoiceAssistant = () => {
           dispatch(setLoadingSearchRecipes(false));
           mutation.mutate(transcript);
         }
-        setWasListening(false); // Reset the wasListening flag
+        setWasListening(false);
       }
     }
   }, [listeningState]);
 
   const toggleListening = (duration: number) => {
     setListeningState(true);
+    if (navigator.vibrate) {
+      navigator.vibrate(200);
+    }
     setTimeout(() => {
       setListeningState(false);
     }, duration);

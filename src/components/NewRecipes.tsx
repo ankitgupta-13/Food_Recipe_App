@@ -23,7 +23,7 @@ const NewRecipes = () => {
     {
       idMeal: 3,
       strMeal: "Pilaf sweet with chicken",
-      strMealThumb: Recipe2,
+      strMealThumb: Recipe1,
       profile: Profile2,
       owner: "Laura Wilson",
     },

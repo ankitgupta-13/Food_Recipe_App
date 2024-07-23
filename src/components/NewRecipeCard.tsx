@@ -17,7 +17,9 @@ const NewRecipeCard = ({
       <div className=" flex h-24 bg-white shadow-custom-light p-2">
         <div className="flex items-end gap-1">
           <div className="flex flex-col gap-2">
-            <p className="font-semibold text-sm">{name.slice(0, 14) + ".."}</p>
+            <p className="font-semibold text-sm">
+              {name.length > 10 ? name.slice(0, 10) + "..." : name}
+            </p>
             <div className="flex justify-start">
               <img src={Rating} alt="not found" className="h-3" />
             </div>

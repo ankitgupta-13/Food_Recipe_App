@@ -14,7 +14,7 @@ const RecipeCard = ({ strMeal, strMealThumb }: Recipe) => {
         <div className="h-2/3 pt-2 flex flex-col justify-between">
           <div className="w-full flex justify-center">
             <p className=" w-3/4 text-center text-sm font-semibold text-custom-dark-gray">
-              {strMeal}
+              {strMeal.length > 20 ? `${strMeal.slice(0, 20)}...` : strMeal}
             </p>
           </div>
           <div className="flex justify-between items-center">
