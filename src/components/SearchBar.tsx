@@ -33,9 +33,16 @@ const SearchBar = () => {
           dispatch(setSearchInput(search));
           dispatch(setSearchRecipes(response));
           dispatch(setLoadingSearchRecipes(false));
+        } else {
+          dispatch(setSearchInput(search));
+          dispatch(setSearchRecipes([]));
+          dispatch(setLoadingSearchRecipes(false));
         }
         return response;
       }
+    },
+    onMutate: () => {
+      dispatch(setLoadingSearchRecipes(true));
     },
   });
 

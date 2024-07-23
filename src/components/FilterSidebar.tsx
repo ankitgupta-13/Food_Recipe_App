@@ -129,13 +129,11 @@ const FilterSidebar = () => {
                       onClick={() => handleCategoryClick(category)}
                     />
                   ))}
-          </div>
-          <div
-            className="flex justify-end"
-            onClick={() => setShowAllCategory((prev) => !prev)}
-          >
-            <button className="bg-custom-green text-white text-xs p-1 w-max rounded-md">
-              {`Show ${showAllCategory ? "Less" : "More"}`}
+            <button
+              className="bg-custom-green text-white text-xs px-4 h-8 w-max rounded-xl flex items-center justify-center"
+              onClick={() => setShowAllCategory((prev) => !prev)}
+            >
+              {`${showAllCategory ? "Less" : "More"}`}
             </button>
           </div>
         </div>
@@ -148,10 +146,7 @@ const FilterSidebar = () => {
                 selectedAreas.length === allAreas.length &&
                 selectedAreas.length > 0
               }
-              onClick={() => {
-                handleAreaClick({ strArea: "All" });
-                setShowAllArea(true);
-              }}
+              onClick={() => handleAreaClick({ strArea: "All" })}
             />
             {showAllArea
               ? allAreas.map((area: Area, index: number) => (
@@ -176,13 +171,11 @@ const FilterSidebar = () => {
                       onClick={() => handleAreaClick(area)}
                     />
                   ))}
-          </div>
-          <div
-            className="flex justify-end"
-            onClick={() => setShowAllArea((prev) => !prev)}
-          >
-            <button className="bg-custom-green text-white text-xs p-1 w-max rounded-md">
-              {`Show ${showAllArea ? "Less" : "More"}`}
+            <button
+              className="bg-custom-green text-white text-xs px-4 h-8 w-max rounded-xl flex items-center justify-center"
+              onClick={() => setShowAllArea((prev) => !prev)}
+            >
+              {`${showAllArea ? "Less" : "More"}`}
             </button>
           </div>
         </div>

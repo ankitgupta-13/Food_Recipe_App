@@ -1,7 +1,6 @@
 import { Area } from "../types/area";
 import { Category } from "../types/category";
 import { api } from "./axiosInstance";
-
 export const getAllCategories = async () => {
   try {
     const response = await api.get("/list.php?c=list");
@@ -76,7 +75,6 @@ export const getRecipesByArea = async (areas: Area[]) => {
 
 export const getRecipesBySearch = async (search: string) => {
   try {
-    console.log(search);
     const response = await api.get(`/search.php?s=${search}`);
     if (response.status === 200) {
       return response.data.meals;

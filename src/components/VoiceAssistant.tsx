@@ -17,6 +17,7 @@ const VoiceAssistant = () => {
   const { transcript, browserSupportsSpeechRecognition, resetTranscript } =
     useSpeechRecognition();
   const [listeningState, setListeningState] = useState(false);
+  const [wasListening, setWasListening] = useState(false);
 
   const mutation = useMutation({
     mutationFn: async (search: string) => {
@@ -29,15 +30,23 @@ const VoiceAssistant = () => {
   useEffect(() => {
     if (listeningState) {
       resetTranscript();
+      setWasListening(true); // Mark as was listening
       SpeechRecognition.startListening({
         continuous: true,
         language: "en-IN",
       });
     } else {
-      SpeechRecognition.stopListening();
-      dispatch(setSearchInput(transcript));
-      dispatch(setLoadingSearchRecipes(false));
-      mutation.mutate(transcript);
+      if (wasListening) {
+        SpeechRecognition.stopListening();
+        if (transcript.trim().length === 0) {
+          alert("Please try again");
+        } else {
+          dispatch(setSearchInput(transcript));
+          dispatch(setLoadingSearchRecipes(false));
+          mutation.mutate(transcript);
+        }
+        setWasListening(false); // Reset the wasListening flag
+      }
     }
   }, [listeningState]);
 
@@ -60,7 +69,11 @@ const VoiceAssistant = () => {
           toggleListening(5000);
         }}
         alt="Microphone"
-        className="w-5 cursor-pointer"
+        className={`w-5 cursor-pointer transition-transform duration-200 ${
+          listeningState
+            ? "fill-blue-600 transform scale-125 filter brightness-125"
+            : ""
+        }`}
       />
     </div>
   );
