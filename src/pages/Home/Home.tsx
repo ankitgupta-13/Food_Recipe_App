@@ -13,6 +13,7 @@ import {
   Recipes,
   SearchBar,
   SearchRecipes,
+  VoiceAssistant,
 } from "../../components";
 import { setAreas, setCategories } from "../../redux/reducers/FilterSlice";
 import {
@@ -25,6 +26,9 @@ const Home = () => {
   const dispatch = useDispatch();
   const showFilter = useSelector((state: RootState) => state.filter.showFilter);
   const showSearch = useSelector((state: RootState) => state.filter.showSearch);
+  const showAssistant = useSelector(
+    (state: RootState) => state.filter.showAssistant
+  );
   const { data: allCategories } = useQuery({
     queryKey: ["allCategories"],
     queryFn: async () => {
@@ -68,24 +72,31 @@ const Home = () => {
   return (
     <div className="relative flex flex-col gap-5">
       <Header />
+      <SearchBar />
+      <Categories />
+      <Recipes />
+      <NewRecipes />
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out z-50 w-full overflow-y-scroll ${
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out z-30 w-full overflow-y-scroll ${
           showFilter ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <FilterSidebar />
       </div>
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out z-40 w-full overflow-y-scroll ${
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out z-20 w-full overflow-y-scroll ${
           showSearch ? "-translate-x-0" : "-translate-x-full"
         }`}
       >
         <SearchRecipes />
       </div>
-      <SearchBar />
-      <Categories />
-      <Recipes />
-      <NewRecipes />
+      <div
+        className={`fixed top-0 right-0 h-full opacity-95 bg-black shadow-lg transform transition-transform duration-700 ease-in-out z-20 w-full overflow-y-scroll ${
+          showAssistant ? "-translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        <VoiceAssistant />
+      </div>
     </div>
   );
 };

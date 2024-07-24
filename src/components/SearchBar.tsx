@@ -4,9 +4,12 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipesBySearch } from "../api/recipe.api";
 import Filter from "../assets/Filter.svg";
+import Microphone from "../assets/Microphone.svg";
 import Search from "../assets/Search.svg";
 import {
+  setIsAssistantActive,
   setSearchInput,
+  setShowAssistant,
   setShowFilter,
   setShowSearch,
 } from "../redux/reducers/FilterSlice";
@@ -15,7 +18,6 @@ import {
   setSearchRecipes,
 } from "../redux/reducers/RecipeSlice";
 import { RootState } from "../redux/store";
-import VoiceAssistant from "./VoiceAssistant";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -24,7 +26,6 @@ const SearchBar = () => {
   const searchInput = useSelector(
     (state: RootState) => state.filter.searchInput
   );
-
   const { mutate } = useMutation({
     mutationFn: async (search: string) => {
       if (search.trim()) {
@@ -60,29 +61,44 @@ const SearchBar = () => {
 
   return (
     <div className="flex h-10 gap-5">
-      <div
-        className="flex items-center justify-between w-11/12 h-full gap-2 rounded-lg border-2 border-custom-gray p-2"
-        onClick={() => dispatch(setShowSearch(true))}
-      >
-        <img src={Search} alt="Search" />
-        {showSearch ? (
-          <input
-            className="text-custom-light-gray text-xs border-none outline-none w-11/12"
-            placeholder="Search Recipe"
-            value={searchInput}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                debouncedMutate(searchInput);
+      <div className="flex items-center justify-between w-11/12 h-full gap-2 rounded-lg border-2 border-custom-gray cursor-pointer px-2">
+        <div
+          className="flex items-center justify-between gap-2 h-full w-full"
+          onClick={() => dispatch(setShowSearch(true))}
+        >
+          <img src={Search} alt="Search" />
+          {showSearch ? (
+            <input
+              className="text-custom-light-gray text-xs border-none outline-none w-11/12"
+              placeholder="Search Recipe"
+              value={searchInput}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  debouncedMutate(searchInput);
+                }
+              }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleInputChange(e)
               }
-            }}
-            onChange={handleInputChange}
-          />
-        ) : (
-          <div className="flex justify-start w-full">
-            <p className="text-custom-light-gray text-xs">Search Recipe</p>
-          </div>
-        )}
-        <VoiceAssistant />
+            />
+          ) : (
+            <div className="flex justify-start w-full">
+              <p className="text-custom-light-gray text-xs">Search Recipe</p>
+            </div>
+          )}
+        </div>
+        <img
+          src={Microphone}
+          alt="Microphone"
+          className="w-5 cursor-pointer transition-transform duration-200 "
+          onClick={() => {
+            if (navigator.vibrate) {
+              navigator.vibrate(200);
+            }
+            dispatch(setShowAssistant(true));
+            dispatch(setIsAssistantActive(true));
+          }}
+        />
       </div>
       <img
         src={Filter}

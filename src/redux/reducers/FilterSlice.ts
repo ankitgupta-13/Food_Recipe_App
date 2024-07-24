@@ -9,6 +9,8 @@ export interface FilterState {
   searchInput: string;
   showFilter: boolean;
   showSearch: boolean;
+  showAssistant: boolean;
+  isAssistantActive: boolean;
 }
 
 const initialState: FilterState = {
@@ -17,6 +19,8 @@ const initialState: FilterState = {
   searchInput: "",
   showFilter: false,
   showSearch: false,
+  showAssistant: false,
+  isAssistantActive: false,
 };
 
 export const filterSlice = createSlice({
@@ -38,6 +42,12 @@ export const filterSlice = createSlice({
     setShowSearch: (state, action: PayloadAction<boolean>) => {
       state.showSearch = action.payload;
     },
+    setShowAssistant: (state, action: PayloadAction<boolean>) => {
+      state.showAssistant = action.payload;
+    },
+    setIsAssistantActive: (state, action: PayloadAction<boolean>) => {
+      state.isAssistantActive = action.payload;
+    },
   },
 });
 
@@ -47,6 +57,8 @@ export const {
   setSearchInput,
   setShowFilter,
   setShowSearch,
+  setShowAssistant,
+  setIsAssistantActive,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

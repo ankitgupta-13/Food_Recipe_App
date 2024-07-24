@@ -11,6 +11,7 @@ import { Category } from "../types/category";
 import { Recipe } from "../types/recipe";
 import ListItemButton from "./ListItemButton";
 import SearchCard from "./SearchCard";
+import SkeletonCard from "./Skeleton";
 
 const FilterSidebar = () => {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -68,7 +69,7 @@ const FilterSidebar = () => {
       ) || selectedAreas.some((area) => area.strArea === recipe.strArea)
   );
 
-  const mutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async ({
       selectedCategories,
       selectedAreas,
@@ -98,6 +99,9 @@ const FilterSidebar = () => {
       );
       setSelectedRecipes(filteredRecipes);
       return filteredRecipes;
+    },
+    onMutate: () => {
+      setSelectedRecipes([]);
     },
   });
   useEffect(() => {
@@ -205,7 +209,7 @@ const FilterSidebar = () => {
           <button
             className="bg-custom-green text-white w-44 h-9 rounded-lg"
             onClick={() =>
-              mutation.mutate({
+              mutate({
                 selectedCategories,
                 selectedAreas,
               })
@@ -214,20 +218,29 @@ const FilterSidebar = () => {
             Filter
           </button>
         </div>
-        <div>
-          {selectedRecipes.length > 0 && (
-            <div className="flex flex-col gap-3">
-              <div className="font-semibold">Recipes</div>
-              <div className="h-full flex gap-y-2 flex-wrap justify-between">
-                {selectedRecipes.map((recipe: Recipe) => (
-                  <SearchCard
-                    key={recipe.idMeal}
-                    name={recipe.strMeal}
-                    image={recipe.strMealThumb}
-                  />
-                ))}
-              </div>
+        <div className="">
+          {isPending ? (
+            <div className="flex flex-wrap items-center pt-10 gap-3">
+              <SkeletonCard {...{ w: 28, h: 28 }} />
+              <SkeletonCard {...{ w: 28, h: 28 }} />
+              <SkeletonCard {...{ w: 28, h: 28 }} />
+              <SkeletonCard {...{ w: 28, h: 28 }} />
             </div>
+          ) : (
+            selectedRecipes.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <div className="font-semibold">Recipes</div>
+                <div className="h-full flex gap-y-2 flex-wrap justify-between">
+                  {selectedRecipes.map((recipe: Recipe) => (
+                    <SearchCard
+                      key={recipe.idMeal}
+                      name={recipe.strMeal}
+                      image={recipe.strMealThumb}
+                    />
+                  ))}
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>

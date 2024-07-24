@@ -1,6 +1,8 @@
-const SkeletonCard = () => {
+const SkeletonCard = ({ w, h }: { w: number; h: number }) => {
   return (
-    <div className="relative w-36 h-60 flex-shrink-0 mx-2 bg-gray-200 rounded-lg animate-pulse">
+    <div
+      className={`relative w-${w} h-${h} flex-shrink-0 mx-2 bg-gray-200 rounded-lg animate-pulse`}
+    >
       <div className="flex justify-center">
         <div className="w-2/3 h-24 bg-gray-300 rounded-full" />
       </div>

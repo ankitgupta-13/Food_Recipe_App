@@ -1,62 +1,84 @@
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { getRecipesBySearch } from "../api/recipe.api";
-import MicroPhone from "../assets/Microphone.svg";
-import { setSearchInput } from "../redux/reducers/FilterSlice";
+import Cross from "../assets/Cross.svg";
+import Microphone from "../assets/Microphone2.svg";
+import {
+  setIsAssistantActive,
+  setSearchInput,
+  setShowAssistant,
+  setShowSearch,
+} from "../redux/reducers/FilterSlice";
 import {
   setLoadingSearchRecipes,
   setSearchRecipes,
 } from "../redux/reducers/RecipeSlice";
+import { RootState } from "../redux/store";
 
 const VoiceAssistant = () => {
   const dispatch = useDispatch();
+  const [assistantState, setAssistantState] = useState("Listening...");
   const { transcript, browserSupportsSpeechRecognition, resetTranscript } =
     useSpeechRecognition();
-  const [listeningState, setListeningState] = useState(false);
-  const [wasListening, setWasListening] = useState(false);
+  const isAssistantActive = useSelector(
+    (state: RootState) => state.filter.isAssistantActive
+  );
 
   const mutation = useMutation({
     mutationFn: async (search: string) => {
       const response = await getRecipesBySearch(search);
-      response && dispatch(setSearchRecipes(response));
+      if (response) {
+        dispatch(setSearchRecipes(response));
+        dispatch(setShowSearch(true));
+        dispatch(setLoadingSearchRecipes(false));
+      } else {
+        dispatch(setSearchRecipes([]));
+        dispatch(setLoadingSearchRecipes(false));
+      }
+      dispatch(setShowAssistant(false));
       return response;
     },
   });
 
   useEffect(() => {
-    if (listeningState) {
+    if (isAssistantActive) {
       resetTranscript();
-      setWasListening(true);
+      setAssistantState("Listening...");
+      toggleListening(4000);
       SpeechRecognition.startListening({
         continuous: true,
         language: "en-IN",
       });
     } else {
-      if (wasListening) {
-        SpeechRecognition.stopListening();
-        if (transcript.trim().length === 0) {
-          alert("Please try again");
-        } else {
-          dispatch(setSearchInput(transcript));
-          dispatch(setLoadingSearchRecipes(false));
-          mutation.mutate(transcript);
-        }
-        setWasListening(false);
+      SpeechRecognition.stopListening();
+      if (transcript.length > 0) {
+        dispatch(setIsAssistantActive(false));
+        dispatch(setSearchInput(transcript));
+        dispatch(setLoadingSearchRecipes(true));
+        setAssistantState(transcript);
+        mutation.mutate(transcript);
+      } else {
+        setAssistantState("Didn't catch that. Please try again.");
       }
     }
-  }, [listeningState]);
+  }, [isAssistantActive]);
+
+  useEffect(() => {
+    if (!isAssistantActive) {
+      resetTranscript();
+    }
+  }, [isAssistantActive]);
 
   const toggleListening = (duration: number) => {
-    setListeningState(true);
     if (navigator.vibrate) {
       navigator.vibrate(200);
     }
     setTimeout(() => {
-      setListeningState(false);
+      dispatch(setIsAssistantActive(false));
     }, duration);
   };
 
@@ -65,19 +87,39 @@ const VoiceAssistant = () => {
   }
 
   return (
-    <div>
-      <img
-        src={MicroPhone}
-        onClick={() => {
-          toggleListening(5000);
-        }}
-        alt="Microphone"
-        className={`w-5 cursor-pointer transition-transform duration-200 ${
-          listeningState
-            ? "fill-blue-600 transform scale-125 filter brightness-125"
-            : ""
-        }`}
-      />
+    <div className="flex items-center h-full">
+      <div className="flex flex-col items-center justify-between h-3/4 w-full">
+        <div className="flex justify-start w-full px-4">
+          <img
+            src={Cross}
+            alt="cross"
+            className="w-10"
+            onClick={() => {
+              dispatch(setShowAssistant(false));
+              dispatch(setIsAssistantActive(false));
+              resetTranscript();
+            }}
+          />
+        </div>
+        <div>
+          <span className="text-xl text-white">{assistantState}</span>
+        </div>
+        <div
+          className={`${
+            isAssistantActive ? "bg-red-600 ease-in-out" : "bg-gray-600 "
+          } rounded-full w-24 h-24 flex justify-center`}
+        >
+          <img
+            src={Microphone}
+            alt="Microphone"
+            className="w-10 cursor-pointer"
+            onClick={() => {
+              dispatch(setIsAssistantActive(!isAssistantActive));
+              toggleListening(4000);
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };

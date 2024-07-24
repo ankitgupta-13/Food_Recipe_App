@@ -18,7 +18,6 @@ const SearchRecipes = () => {
   const searchInput = useSelector(
     (state: RootState) => state.filter.searchInput
   );
-
   return (
     <div className="flex justify-center pt-10">
       <div className="flex flex-col gap-4 w-5/6">
@@ -40,9 +39,15 @@ const SearchRecipes = () => {
               What recipe will make you smile today?
             </p>
           ) : isLoadingSearchRecipes ? (
-            <div className="flex pt-10 gap-3">
-              <SkeletonCard />
-              <SkeletonCard />
+            <div className="flex flex-wrap pt-10 gap-3">
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
+              <SkeletonCard {...{ w: 28, h: 52 }} />
             </div>
           ) : searchRecipes.length === 0 ? (
             <p className="text-custom-dark-gray text-sm py-2">

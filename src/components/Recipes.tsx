@@ -14,9 +14,10 @@ const Recipes = () => {
     <div className="overflow-x-auto overflow-y-hidden">
       {isLoadingAllCategoriesRecipe ? (
         <div className="flex gap-3">
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
+          <SkeletonCard {...{ w: 36, h: 60 }} />
+          <SkeletonCard {...{ w: 36, h: 60 }} />
+          <SkeletonCard {...{ w: 36, h: 60 }} />
+          <SkeletonCard {...{ w: 36, h: 60 }} />
         </div>
       ) : (
         <div className="flex gap-3">
