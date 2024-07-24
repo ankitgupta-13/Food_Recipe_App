@@ -56,6 +56,9 @@ const VoiceAssistant = () => {
     } else {
       SpeechRecognition.stopListening();
       if (transcript.length > 0) {
+        if (navigator.vibrate) {
+          navigator.vibrate(200);
+        }
         dispatch(setIsAssistantActive(false));
         dispatch(setSearchInput(transcript));
         dispatch(setLoadingSearchRecipes(true));
